@@ -43,7 +43,7 @@ public class Valuesget {
 
 	try {
 		connection = DriverManager
-		.getConnection("jdbc:mysql://localhost:3306/?user=root","root", "balsun");
+		.getConnection("jdbc:mysql://localhost/?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root", "balsun");
 
 	} catch (SQLException e1) {
 		System.out.println("Connection Failed! Check output console");
