@@ -8,7 +8,10 @@ public class Assignmentmain
 		String b= "balsun";
 		Valuesget test1 = new Valuesget(a,b);
 		
-		test1.method();
+		((Valuesget) test1).meethod();
+		test1.pointOfMeasurement();
+		
+		
 		
 			
 	}

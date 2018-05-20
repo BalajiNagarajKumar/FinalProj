@@ -16,14 +16,14 @@ public class Valuesget {
 	//root@localhost:3306
 	//jdbc:mysql://localhost:3306/?user=root
 	
-	//final String driver = "com.mysql.jdbc.Driver";  
-	//final String url = "jdbc:mysql://localhost/?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	//final String gridurl = "jdbc:mysql://localhost/MicroGrid?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	final String driver = "com.mysql.cj.jdbc.Driver";  
+	final String url = "jdbc:mysql://localhost/?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	final String gridurl = "jdbc:mysql://localhost/MicroGrid?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	
-	//String PASS = "balsun";
-	//String USER = "root"; 
-	//*/
-	void method()
+	String PASS = "balsun";
+	String USER = "root"; 
+	
+	void meethod()
 	{
 	
 	System.out.println("-------- MySQL JDBC Connection Testing ------------");
@@ -59,54 +59,9 @@ public class Valuesget {
 	
 	}
 	}
-		double[][] NORMmeasurlist= new double [200][18];
-		
-		double[][] NormMeasurement(double[][] measurlist)
-		{
-			
-	    //////// Normalization ////////////
-			// Maximum/Minimum Voltage Value
-			for(int k=0; k<200; k++){
-				double maxVol=measurlist[k][0];
-				double minVol=measurlist[k][0];
-				for (int i=0; i<18; i+=2) {
-					if (measurlist[k][i] > maxVol) {
-			    	maxVol = measurlist[k][i];
-			    }
-					if (measurlist[k][i] < minVol) {
-			    	minVol = measurlist[k][i];
-			    }
-			}
-			for (int i=0; i<18; i+=2) {
-				NORMmeasurlist[k][i]=(measurlist[k][i]-minVol)/(maxVol-minVol);
-			}
-			}
-			// Maximum/Minimum Angle Value
-			for(int k=0; k<200; k++){
-			double maxAng=measurlist[k][1];	
-			double minAng=measurlist[k][1];
-			for (int i=1; i<18; i+=2) {
-			    if (measurlist[k][i] > maxAng) {
-			    	maxAng = measurlist[k][i];
-			    }
-			    if (measurlist[k][i] < minAng) {
-			    	minAng = measurlist[k][i];
-			    }
-			}
-			for (int i=1; i<18; i+=2) {
-				NORMmeasurlist[k][i]=(measurlist[k][i]-minAng)/(maxAng-minAng);
-				}
-			}
-			return NORMmeasurlist;			
-		}
-	    
-		Connection conn = null;
-	    Statement stmt = null;
-	    
-
 double[] pointlist= new double [3600];
 double[][] measurlist= new double [200][18];
-/*
+
 public double[][] pointOfMeasurement() {
 
     try{
@@ -115,17 +70,17 @@ public double[][] pointOfMeasurement() {
 	      
 	      // Open a connection
 	      System.out.println("Connecting to SQL server...");
-	      conn=DriverManager.getConnection(url + gridurl, USER, PASS);
+	      con=DriverManager.getConnection(url + gridurl, USER, PASS);
 
 		  // execute a query to create database. It should have the same name as in the MySQL
 		  System.out.println("\n"+"Creating database...");
-		  stmt = conn.createStatement();
-		  conn = DriverManager.getConnection(url + "system9Buses" + gridurl, USER, PASS);
+		  statement = con.createStatement();
+		  con = DriverManager.getConnection(url + "system9Buses" + gridurl, USER, PASS);
 		  sql = "USE system9Buses";
-		  stmt.executeUpdate(sql);
+		  statement.executeUpdate(sql);
 
 		  sql = "SELECT * FROM measurements";
-		  ResultSet rs = stmt.executeQuery(sql); // execute query
+		  ResultSet rs = statement.executeQuery(sql); // execute query
 		  
 		  int count=0;
 			// Insert values into an ArrayList
@@ -154,7 +109,6 @@ public double[][] pointOfMeasurement() {
 	return measurlist;
 } //Finish Method
 
-*/
 		
 }	
 		
