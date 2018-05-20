@@ -33,6 +33,7 @@ public class Valuesget {
 	} catch (ClassNotFoundException e) {
 		System.out.println("Where is your MySQL JDBC Driver?");
 		e.printStackTrace();
+		
 		return;
 	}
 	}
