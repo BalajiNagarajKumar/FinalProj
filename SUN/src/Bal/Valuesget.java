@@ -18,7 +18,7 @@ public class Valuesget {
 	
 	final String driver = "com.mysql.cj.jdbc.Driver";  
 	final String url = "jdbc:mysql://localhost/?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	final String gridurl = "jdbc:mysql://localhost/MicroGrid?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	final String gridurl = "jdbc:mysql://localhost/subtables?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	
 	String PASS = "balsun";
 	String USER = "root"; 
@@ -70,13 +70,13 @@ public double[][] pointOfMeasurement() {
 	      
 	      // Open a connection
 	      System.out.println("Connecting to SQL server...");
-	      con=DriverManager.getConnection(url + gridurl, USER, PASS);
+	      con=DriverManager.getConnection(url, USER, PASS);
 
 		  // execute a query to create database. It should have the same name as in the MySQL
 		  System.out.println("\n"+"Creating database...");
 		  statement = con.createStatement();
-		  con = DriverManager.getConnection(url + "system9Buses" + gridurl, USER, PASS);
-		  sql = "USE system9Buses";
+		  con = DriverManager.getConnection(gridurl , USER, PASS);
+		  sql = "USE subtables";
 		  statement.executeUpdate(sql);
 
 		  sql = "SELECT * FROM measurements";
@@ -97,7 +97,11 @@ public double[][] pointOfMeasurement() {
 			}
 		
 			System.out.println("Database is working");
-		
+			for(int i=0;i<200;i++){
+				for(int j=0;j<18 ;j++){
+					System.out.println(measurlist[i][j]);
+				}
+			}
 
     }catch (SQLException se) {
 		// Handle errors for JDBC
