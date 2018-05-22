@@ -63,6 +63,8 @@ public class Valuesget {
 double[] pointlist= new double [3600];
 double[][] measurlist= new double [200][18];
 
+//*********************Measurement Table Analysis*********************************//
+
 public double[][] pointOfMeasurement() {
 
     try{
@@ -100,8 +102,12 @@ public double[][] pointOfMeasurement() {
 			System.out.println("Database is working");
 			for(int i=0;i<200;i++){
 				for(int j=0;j<18 ;j++){
-					System.out.println(measurlist[i][j]);
+					//System.out.println(i);
+					//System.out.println(j);
+					//System.out.println((i+1)*(j+1));
+					//System.out.println(measurlist[i][j]+" ");
 				}
+				 //System.out.print("\n");
 			}
 
     }catch (SQLException se) {
@@ -114,8 +120,58 @@ public double[][] pointOfMeasurement() {
 	return measurlist;
 } //Finish Method
 
-		
-}	
+double[][] NORMmeasurlist= new double [200][18];
+public double[][] NormMeasurement(double[][] measurlist){
+	
+//////// Normalization ////////////
+
+	for(int i=0; i<200; i++){
+		double maxVol=measurlist[i][0];
+		double minVol=measurlist[i][0];
+		for (int j=0; j<18; j=j+2) {
+			if (measurlist[i][j] > maxVol) {
+	    	maxVol = measurlist[i][j];
+	    }
+			if (measurlist[i][j] < minVol) {
+	    	minVol = measurlist[i][j];
+	    }
+	}
+	for (int i1=0; i1<18; i1=i1+2) {
+		NORMmeasurlist[i][i1]=(measurlist[i][i1]-minVol)/(maxVol-minVol);
+	}
+	}
+	
+	// Maximum/Minimum Angle Value
+	for(int i=0; i<200; i++){
+	double maxAng=measurlist[i][1];	
+	double minAng=measurlist[i][1];
+	for (int j=1; j<18; j=j+2) {
+	    if (measurlist[i][j] > maxAng) {
+	    	maxAng = measurlist[i][j];
+	    }
+	    if (measurlist[i][j] < minAng) {
+	    	minAng = measurlist[i][j];
+	    }
+	}
+	for (int i1=1; i1<18; i1=i1+2) {
+		NORMmeasurlist[i][i1]=(measurlist[i][i1]-minAng)/(maxAng-minAng);
+		}
+	}
+	for(int k=0; k<200; k++)
+		for (int i=1; i<18; i=i+1) 
+	System.out.println(NORMmeasurlist[k][i]);
+	return NORMmeasurlist;
+	
+	
+}
+
+//*********************Analog Values Table Analysis*********************************//
+
+
+
+
+}
+
 		
 
 	

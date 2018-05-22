@@ -9,7 +9,8 @@ public class Assignmentmain
 		Valuesget test1 = new Valuesget(a,b);
 		
 		((Valuesget) test1).meethod();
-		test1.pointOfMeasurement();
+		double[][] measurlisto = test1.pointOfMeasurement();
+		test1.NormMeasurement(measurlisto);
 		
 		
 		
