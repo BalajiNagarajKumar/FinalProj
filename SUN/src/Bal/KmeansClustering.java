@@ -7,24 +7,6 @@ import java.util.*;
 
 public class KmeansClustering {
 	
-	static ArrayList<String> type = new ArrayList<String>();
-	
-	static ArrayList<String> type1 = new ArrayList<String>();
-	static ArrayList<String> type2 = new ArrayList<String>();
-	static ArrayList<String> type3 = new ArrayList<String>();
-	static ArrayList<String> type4 = new ArrayList<String>();
-	
-	static double [][] values = new double [150][4];
-	static double [][] centroids = new double [4][4];
-	
-	static double [][] cluster1 = new double [150][4];
-	static double [][] cluster2 = new double [150][4];
-	static double [][] cluster3 = new double [150][4];
-	static double [][] cluster4 = new double [150][4];
-	
-	static double dist1,dist2,dist3,dist4;
-	static int index1,index2,index3,index4;
-
 	
 	Random rand = new Random();
 	double[][] RandCenter = new double[4][18];
@@ -52,6 +34,154 @@ public class KmeansClustering {
 	}
 	public double[][] getRandCenter(){
 			return RandCenter;
+	}
+	
+	public double[][] distance(double[][] datapoints, double[][] centerpoints){
+		
+		double[] clusters = new double[200];
+		double[][] newcenter = new double [4][18];
+		
+		for(int i=0;i<4;i++)
+			for(int j=0;j<18;j++)
+			{
+				newcenter[i][j]= centerpoints[i][j];
+			}
+		
+		int counterone=0; 
+		int countertwo=0;
+		int counterthree=0;
+		int counterfour=0;
+		for(int p=0; p<200000; p++) {
+			
+		
+			
+			
+			counterone = 0; countertwo= 0; counterthree= 0; counterfour= 0;
+
+		for(int i=0;i<200;i++) {
+			
+			double dist1 =0;
+			double dist2 =0;
+			double dist3 =0;
+			double dist4 =0;
+			double sdist1 =0;
+			double sdist2 =0;
+			double sdist3 =0;
+			double sdist4 =0;
+			double mindist =0;
+			
+			for(int j=0;j<18;j++) {
+				
+				dist1 += ((newcenter[0][j]-datapoints[i][j])*(newcenter[0][j]-datapoints[i][j]));
+				dist2 += ((newcenter[1][j]-datapoints[i][j])*(newcenter[1][j]-datapoints[i][j]));
+				dist3 += ((newcenter[2][j]-datapoints[i][j])*(newcenter[2][j]-datapoints[i][j]));
+				dist4 += ((newcenter[3][j]-datapoints[i][j])*(newcenter[3][j]-datapoints[i][j]));
+				
+		}
+			sdist1 = Math.sqrt(dist1);
+			sdist2 = Math.sqrt(dist2);
+			sdist3 = Math.sqrt(dist3);
+			sdist4 = Math.sqrt(dist4);
+			
+			mindist = Math.min(sdist1, Math.min(sdist2, Math.min(sdist3,sdist4)));
+			
+			if(mindist == sdist1) {
+				
+				clusters[i] = 1;
+				counterone++;
+				
+				}		
+			else if(mindist == sdist2) {
+				
+				clusters[i] = 2;
+				countertwo++;
+				
+				}
+			else if(mindist == sdist3) {
+				
+				clusters[i] = 3;
+				counterthree++;
+				
+				}
+			else if(mindist == sdist4) {
+				
+				clusters[i] = 4;
+				counterfour++;
+				}
+			
+			}
+		
+		
+		
+		
+		double[] clusteronedata = new double[18];
+		double[] clustertwodata = new double[18];
+		double[] clusterthreedata = new double[18];
+		double[] clusterfourdata =  new double[18];
+		double[] avclusteronedata = new double[18];
+		double[] avclustertwodata = new double[18];
+		double[] avclusterthreedata = new double[18];
+		double[] avclusterfourdata =  new double[18];
+		
+     for(int i = 0; i < 200; i ++){
+    	 for (int j=0;j<18;j++) {
+    		 
+    		 if(clusters[i] == 1) {
+        		 clusteronedata [j] += datapoints[i][j];
+        		 
+    	 }
+    		 
+    		 if(clusters[i] == 2) {
+        		 clustertwodata [j] += datapoints[i][j];
+    	 }
+    	
+    		 if(clusters[i] == 3) {
+        		 clusterthreedata [j] += datapoints[i][j];
+    	 }
+    		 
+    		 if(clusters[i] == 4) {
+        		 clusterfourdata [j] += datapoints[i][j];
+    	 }
+    		 
+    	 }
+     }
+     
+     
+     
+     for(int i = 0; i < 18; i ++) {
+    	 avclusteronedata[i] = clusteronedata [i] / counterone;
+     }
+     for(int i = 0; i < 18; i ++) {
+    	 avclustertwodata[i] = clustertwodata [i] / countertwo;
+     }     
+     for(int i = 0; i < 18; i ++) {
+    	 avclusterthreedata[i] = clusterthreedata [i] / counterthree;
+     }     
+     for(int i = 0; i < 18; i ++) {
+    	 avclusterfourdata[i] = clusterfourdata [i] / counterfour;
+     }
+     
+  
+    	 for (int j=0;j<18;j++) {
+    		 newcenter[0][j]=avclusteronedata[j];
+    		 newcenter[1][j]=avclustertwodata[j];
+    		 newcenter[2][j]=avclusterthreedata[j];
+    		 newcenter[3][j]=avclusterfourdata[j];
+    	 }
+     }
+		
+		
+		System.out.println(counterone);
+		System.out.println(countertwo);
+
+		System.out.println(counterthree);
+
+		System.out.println(counterfour);
+
+		
+		return newcenter;
+		}
+
 	}
 		
 /*
@@ -90,5 +220,5 @@ public void clustering()
 /*
  * 
  */
-}
+
 

@@ -17,19 +17,24 @@ public class Assignmentmain
 			//for (int i=1; i<18; i=i+2) 
 		//System.out.println(normameasurlisto[k][i]);
 		
-		double[][] Kmeancenter = Kmean.createRandom(measurlisto);
+		double[][] Kmeancenter = Kmean.createRandom(normameasurlisto);
+		double[][] clustermain = Kmean.distance(normameasurlisto, Kmeancenter );
 		for(int i=0; i<4; i++){
 			for(int j=0; j<18; j++){
 				System.out.println(Kmeancenter[i][j]);
 				
 			}
 			System.out.println();
-		
-		
-		
-			
 	}
-
+		
+		for(int i=0; i<4; i++){
+			for(int j=0; j<18; j++){
+				System.out.println(clustermain[i][j]);
+				
+			}
+			System.out.println("new cluster centroid"+i);
+	}
+		
 
 }
 }
