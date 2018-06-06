@@ -204,7 +204,7 @@ public double[][] Measuredenormalised(double[][] measurlist){
 	    }
 	}
 		for (int i1=0; i1<18; i1=i1+2) {
-			C_Final_Measurenormalist[i][i1]=(measurlist[i][i1]-minVolcen)/(maxVolcen-minVolcen);
+			C_Final_Measurenormalist[i][i1]=(measurlist[i][i1]*(maxVolcen-minVolcen))+minVolcen;
 		}
 	}
 			for(int i=0; i<4; i++){
@@ -219,7 +219,7 @@ public double[][] Measuredenormalised(double[][] measurlist){
 				    }
 				}
 				for (int i1=1; i1<18; i1=i1+2) {
-					C_Final_Measurenormalist[i][i1]=(measurlist[i][i1]-minAngcen)/(maxAngcen-minAngcen);
+					C_Final_Measurenormalist[i][i1]=(measurlist[i][i1]*(maxAngcen-minAngcen))+minAngcen;
 					}
 				}
 				

@@ -40,6 +40,8 @@ public class KmeansClustering {
 		
 		double[] clusters = new double[200];
 		double[][] newcenter = new double [4][18];
+		double[][] oldcenter = new double [4][18];
+
 		
 		for(int i=0;i<4;i++)
 			for(int j=0;j<18;j++)
@@ -47,15 +49,28 @@ public class KmeansClustering {
 				newcenter[i][j]= centerpoints[i][j];
 			}
 		
+		for(int i=0;i<4;i++)
+			for(int j=0;j<18;j++)
+			{
+				oldcenter[i][j]= 0;
+			}
+		
 		int counterone=0; 
 		int countertwo=0;
 		int counterthree=0;
 		int counterfour=0;
+		
+		double[][] error = new double[4][18];
+		
+		
+		
+		
+		
 		for(int p=0; p<20000000; p++) {
 			
+			
+			
 		
-			
-			
 			counterone = 0; countertwo= 0; counterthree= 0; counterfour= 0;
 
 		for(int i=0;i<200;i++) {
@@ -170,6 +185,7 @@ public class KmeansClustering {
     	 }
      }
 		
+		error = 
 		
 		System.out.println(counterone);
 		System.out.println(countertwo);
