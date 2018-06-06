@@ -1,6 +1,8 @@
 package Bal;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Valuesget {
 	
@@ -85,9 +87,24 @@ public double[][] pointOfMeasurement() {
 		  sql = "SELECT * FROM measurements";
 		  ResultSet rs = statement.executeQuery(sql); // execute query
 		  
-		  int count=0;
-			// Insert values into an ArrayList
+		  //sql = "SELECT COUNT(*) FROM measurements";
+		  //ResultSet Rows_total = statement.executeQuery(sql);
+		  
+		 // System.out.println(Rows_total);
+		  
+		  //double RT = Rows_total.getDouble(sql);
+		  
+		  statement = con.createStatement();
+		  ResultSet r = statement.executeQuery("SELECT COUNT(*) AS rowcount FROM measurements");
+		  r.next();
+		  int countR = r.getInt("rowcount");
+		  r.close();
+		  System.out.println("MyTable has " + countR + " row(s).");
+		  
+		  int count =0;
 			while (rs.next()) {	 //false if there are no more rows to take into account
+				
+				
 				Measurement meas=new Measurement(rs.getString("rdfid"), rs.getString("name"),
 						         rs.getDouble("time"),rs.getDouble("value"),rs.getString("sub_rdfid"));
 				pointlist[count]=meas.getValue();
@@ -117,10 +134,73 @@ public double[][] pointOfMeasurement() {
 		// Handle errors for Class.forName
 		e.printStackTrace();
 	}
+  
 	return measurlist;
 } //Finish Method
 
-double[][] NORMmeasurlist= new double [200][18];
+double[][] Measurenormalist= new double [200][18];
+public double[][] Measurenormalised(double[][] measurlist){
+	
+//////// Normalization ////////////
+
+	for(int i=0; i<200; i++){
+		double maxVol=measurlist[i][0];
+		double minVol=measurlist[i][0];
+		for (int j=0; j<18; j=j+2) {
+			if (measurlist[i][j] > maxVol) {
+	    	maxVol = measurlist[i][j];
+	    }
+			if (measurlist[i][j] < minVol) {
+	    	minVol = measurlist[i][j];
+	    }
+	}
+	for (int i1=0; i1<18; i1=i1+2) {
+		Measurenormalist[i][i1]=(measurlist[i][i1]-minVol)/(maxVol-minVol);
+	}
+	}
+	
+	// Maximum/Minimum Angle Value
+	for(int i=0; i<200; i++){
+	double maxAng=measurlist[i][1];	
+	double minAng=measurlist[i][1];
+	for (int j=1; j<18; j=j+2) {
+	    if (measurlist[i][j] > maxAng) {
+	    	maxAng = measurlist[i][j];
+	    }
+	    if (measurlist[i][j] < minAng) {
+	    	minAng = measurlist[i][j];
+	    }
+	}
+	for (int i1=1; i1<18; i1=i1+2) {
+		Measurenormalist[i][i1]=(measurlist[i][i1]-minAng)/(maxAng-minAng);
+		}
+	}
+	
+	//for(int k=0; k<200; k++)
+		//for (int i=1; i<18; i=i+2) 
+	//System.out.println(Measurenormalist[k][i]);
+	
+	
+	return Measurenormalist;
+	
+	
+	
+}
+
+////////DENormalization ////////////
+
+//public double[][] Measuredenormalised(double[][] measurlist){
+	
+	
+	
+	
+	
+//}
+
+//*********************Analog Values Table Analysis*********************************/
+
+/*
+double[][] Analognormalist= new double [200][18];
 public double[][] NormMeasurement(double[][] measurlist){
 	
 //////// Normalization ////////////
@@ -158,16 +238,13 @@ public double[][] NormMeasurement(double[][] measurlist){
 		}
 	}
 	for(int k=0; k<200; k++)
-		for (int i=1; i<18; i=i+1) 
+		for (int i=1; i<18; i=i+2) 
 	System.out.println(NORMmeasurlist[k][i]);
 	return NORMmeasurlist;
 	
 	
 }
-
-//*********************Analog Values Table Analysis*********************************//
-
-
+*/
 
 
 }
