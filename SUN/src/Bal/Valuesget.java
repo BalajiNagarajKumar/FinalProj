@@ -142,7 +142,7 @@ double[][] Measurenormalist= new double [200][18];
 public double[][] Measurenormalised(double[][] measurlist){
 	
 //////// Normalization ////////////
-
+/*
 	for(int i=0; i<200; i++){
 		double maxVol=measurlist[i][0];
 		double minVol=measurlist[i][0];
@@ -175,10 +175,22 @@ public double[][] Measurenormalised(double[][] measurlist){
 		Measurenormalist[i][i1]=(measurlist[i][i1]-minAng)/(maxAng-minAng);
 		}
 	}
-	
+	*/
 	//for(int k=0; k<200; k++)
 		//for (int i=1; i<18; i=i+2) 
 	//System.out.println(Measurenormalist[k][i]);
+	
+	for(int i=0; i<200; i++){
+		for(int j=0;j<18;j+=2) {
+			Measurenormalist[i][j]=(measurlist[i][j])/1.1;
+		}
+	}
+	
+	for(int i=0; i<200; i++){
+		for(int j=1;j<18;j+=2) {
+			Measurenormalist[i][j]=(measurlist[i][j])/180;
+		}
+	}
 	
 	
 	return Measurenormalist;
@@ -186,11 +198,89 @@ public double[][] Measurenormalised(double[][] measurlist){
 	
 	
 }
+/*
+public double maxV(double[][] measurlist){
+	
+////////MaxV ////////////
+
+for(int i=0; i<200; i++){
+	double maxVol=measurlist[i][0];
+	double minVol=measurlist[i][0];
+	for (int j=0; j<18; j=j+2) {
+		if (measurlist[i][j] > maxVol) {
+   	maxVol = measurlist[i][j];
+   }
+		if (measurlist[i][j] < minVol) {
+   	minVol = measurlist[i][j];
+   }
+}
+
+}
+return maxVol;
+}
+
+// Maximum/Minimum Angle Value
+for(int i=0; i<200; i++){
+double maxAng=measurlist[i][1];	
+double minAng=measurlist[i][1];
+for (int j=1; j<18; j=j+2) {
+   if (measurlist[i][j] > maxAng) {
+   	maxAng = measurlist[i][j];
+   }
+   if (measurlist[i][j] < minAng) {
+   	minAng = measurlist[i][j];
+   }
+}
+
+
+
+return Measurenormalist;
+
+
+
+}
+*/
 
 ////////DENormalization ////////////
 double[][] C_Final_Measurenormalist= new double [4][18];
 
-public double[][] Measuredenormalised(double[][] measurlist){
+public double[][] Measuredenormalised(double[][] measurlist, double[][] originallist){
+	
+	/*
+	for(int i=0; i<4; i++){
+		double maxVol=originallist[i][0];
+		double minVol=originallist[i][0];
+		for (int j=0; j<18; j=j+2) {
+			if (originallist[i][j] > maxVol) {
+	    	maxVol = originallist[i][j];
+	    }
+			if (originallist[i][j] < minVol) {
+	    	minVol = originallist[i][j];
+	    }
+	}
+		for (int i1=0; i1<18; i1=i1+2) {
+			C_Final_Measurenormalist[i][i1]=(measurlist[i][i1]*(maxVol-minVol))+minVol;
+		}
+	
+	}
+	
+	// Maximum/Minimum Angle Value
+	for(int i=0; i<4; i++){
+	double maxAng=originallist[0][1];	
+	double minAng=originallist[0][1];
+	for (int j=1; j<18; j=j+2) {
+	    if (measurlist[i][j] > maxAng) {
+	    	maxAng = originallist[i][j];
+	    }
+	    if (measurlist[i][j] < minAng) {
+	    	minAng = originallist[i][j];
+	    }
+	}
+	for (int i1=1; i1<18; i1=i1+2) {
+		C_Final_Measurenormalist[i][i1]=(measurlist[i][i1]*(maxAng-minAng))+minAng;
+		}
+	}
+	
 	
 	for(int i=0; i<4; i++){
 		double maxVolcen=measurlist[i][0];
@@ -204,9 +294,12 @@ public double[][] Measuredenormalised(double[][] measurlist){
 	    }
 	}
 		for (int i1=0; i1<18; i1=i1+2) {
-			C_Final_Measurenormalist[i][i1]=(measurlist[i][i1]*(maxVolcen-minVolcen))+minVolcen;
+			C_Final_Measurenormalist[i][i1]=(measurlist[i][i1]*(maxVol-minVolcen))+minVolcen;
 		}
 	}
+	
+	
+	
 			for(int i=0; i<4; i++){
 				double maxAngcen=measurlist[i][1];	
 				double minAngcen=measurlist[i][1];
@@ -224,7 +317,21 @@ public double[][] Measuredenormalised(double[][] measurlist){
 				}
 				
 			
-				
+				*/
+	
+	
+	
+	for(int i=0; i<4; i++){
+		for(int j=0;j<18;j+=2) {
+			C_Final_Measurenormalist[i][j]=(measurlist[i][j])*1.1;
+		}
+	}
+	
+	for(int i=0; i<4; i++){
+		for(int j=1;j<18;j+=2) {
+			C_Final_Measurenormalist[i][j]=(measurlist[i][j])*180;
+		}
+	}
 				return C_Final_Measurenormalist;
 				
 	

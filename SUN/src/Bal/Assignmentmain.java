@@ -34,12 +34,14 @@ public class Assignmentmain
 			}
 			System.out.println("new cluster centroid"+i);
 	}
-		double[][] denormameasurlisto = test1.Measuredenormalised(clustermain);
+		
+		double[][] denormameasurlisto = test1.Measuredenormalised(clustermain,Kmeancenter);
 
 		for(int k=0; k<4; k++) {
-		for (int i=1; i<18; i=i+2) {
-	System.out.println(denormameasurlisto[k][i]);
+		for (int i=0; i<18; i++) {
+				System.out.println(denormameasurlisto[k][i]);
 		}
+		System.out.println("Fad");
 		}
 		
 		

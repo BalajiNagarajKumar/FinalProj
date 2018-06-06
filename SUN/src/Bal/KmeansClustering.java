@@ -23,7 +23,7 @@ public class KmeansClustering {
 						}
 					}
 				}
-				System.out.println("\n"+" ** Forgy Method for Initializing ** ");
+				System.out.println("\n"+" * Forgy Method for Initializing * ");
 				System.out.println("Index of randomly selected points of measurements: "+index[0]+"\t"+index[1]+"\t"+index[2]+"\t"+index[3]+"\n");
 				for(int i=0; i<4; i++){
 					for(int j=0; j<18; j++){
@@ -59,6 +59,7 @@ public class KmeansClustering {
 		int countertwo=0;
 		int counterthree=0;
 		int counterfour=0;
+		double tol = 0.00000001;
 		
 		double[][] error = new double[4][18];
 		
@@ -176,16 +177,62 @@ public class KmeansClustering {
     	 avclusterfourdata[i] = clusterfourdata [i] / counterfour;
      }
      
-  
-    	 for (int j=0;j<18;j++) {
-    		 newcenter[0][j]=avclusteronedata[j];
-    		 newcenter[1][j]=avclustertwodata[j];
-    		 newcenter[2][j]=avclusterthreedata[j];
-    		 newcenter[3][j]=avclusterfourdata[j];
-    	 }
+     
+	 for (int j=0;j<18;j++) {
+	 	 oldcenter[0][j]=avclusteronedata[j];
+		 oldcenter[1][j]=avclustertwodata[j];
+		 oldcenter[2][j]=avclusterthreedata[j];
+		 oldcenter[3][j]=avclusterfourdata[j];
+	 }
+     
+		double edist1 =0;
+		double edist2 =0;
+		double edist3 =0;
+		double edist4 =0;
+		
+		double esdist1 =0;
+		double esdist2 =0;
+		double esdist3 =0;
+		double esdist4 =0;
+	 
+	 for(int j=0;j<18;j++) {
+			
+			edist1 += ((newcenter[0][j]-oldcenter[0][j])*(newcenter[0][j]-oldcenter[0][j]));
+			edist2 += ((newcenter[1][j]-oldcenter[1][j])*(newcenter[1][j]-oldcenter[1][j]));
+			edist3 += ((newcenter[2][j]-oldcenter[2][j])*(newcenter[2][j]-oldcenter[2][j]));
+			edist4 += ((newcenter[3][j]-oldcenter[3][j])*(newcenter[3][j]-oldcenter[3][j]));
+			
+	}
+		esdist1 = Math.sqrt(edist1);
+		esdist2 = Math.sqrt(edist2);
+		esdist3 = Math.sqrt(edist3);
+		esdist4 = Math.sqrt(edist4);
+	  
+		if(esdist1 < tol && esdist2 < tol && esdist2 < tol && esdist2 < tol) {
+			
+	    	 for (int j=0;j<18;j++) {
+	    		 newcenter[0][j]=avclusteronedata[j];
+	    		 newcenter[1][j]=avclustertwodata[j];
+	    		 newcenter[2][j]=avclusterthreedata[j];
+	    		 newcenter[3][j]=avclusterfourdata[j];
+	    	 }
+	    	 
+	    	 break;
+	    	 
+		}
+		
+   	 for (int j=0;j<18;j++) {
+		 newcenter[0][j]=avclusteronedata[j];
+		 newcenter[1][j]=avclustertwodata[j];
+		 newcenter[2][j]=avclusterthreedata[j];
+		 newcenter[3][j]=avclusterfourdata[j];
+	 }
+		
+
+    	 
+    	 
      }
 		
-		error = 
 		
 		System.out.println(counterone);
 		System.out.println(countertwo);
@@ -236,5 +283,3 @@ public void clustering()
 /*
  * 
  */
-
-
