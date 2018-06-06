@@ -188,64 +188,47 @@ public double[][] Measurenormalised(double[][] measurlist){
 }
 
 ////////DENormalization ////////////
+double[][] C_Final_Measurenormalist= new double [4][18];
 
-//public double[][] Measuredenormalised(double[][] measurlist){
+public double[][] Measuredenormalised(double[][] measurlist){
 	
-	
-	
-	
-	
-//}
-
-//*********************Analog Values Table Analysis*********************************/
-
-/*
-double[][] Analognormalist= new double [200][18];
-public double[][] NormMeasurement(double[][] measurlist){
-	
-//////// Normalization ////////////
-
-	for(int i=0; i<200; i++){
-		double maxVol=measurlist[i][0];
-		double minVol=measurlist[i][0];
+	for(int i=0; i<4; i++){
+		double maxVolcen=measurlist[i][0];
+		double minVolcen=measurlist[i][0];
 		for (int j=0; j<18; j=j+2) {
-			if (measurlist[i][j] > maxVol) {
-	    	maxVol = measurlist[i][j];
+			if (measurlist[i][j] > maxVolcen) {
+	    	maxVolcen = measurlist[i][j];
 	    }
-			if (measurlist[i][j] < minVol) {
-	    	minVol = measurlist[i][j];
-	    }
-	}
-	for (int i1=0; i1<18; i1=i1+2) {
-		NORMmeasurlist[i][i1]=(measurlist[i][i1]-minVol)/(maxVol-minVol);
-	}
-	}
-	
-	// Maximum/Minimum Angle Value
-	for(int i=0; i<200; i++){
-	double maxAng=measurlist[i][1];	
-	double minAng=measurlist[i][1];
-	for (int j=1; j<18; j=j+2) {
-	    if (measurlist[i][j] > maxAng) {
-	    	maxAng = measurlist[i][j];
-	    }
-	    if (measurlist[i][j] < minAng) {
-	    	minAng = measurlist[i][j];
+			if (measurlist[i][j] < minVolcen) {
+	    	minVolcen = measurlist[i][j];
 	    }
 	}
-	for (int i1=1; i1<18; i1=i1+2) {
-		NORMmeasurlist[i][i1]=(measurlist[i][i1]-minAng)/(maxAng-minAng);
+		for (int i1=0; i1<18; i1=i1+2) {
+			C_Final_Measurenormalist[i][i1]=(measurlist[i][i1]-minVolcen)/(maxVolcen-minVolcen);
 		}
 	}
-	for(int k=0; k<200; k++)
-		for (int i=1; i<18; i=i+2) 
-	System.out.println(NORMmeasurlist[k][i]);
-	return NORMmeasurlist;
-	
+			for(int i=0; i<4; i++){
+				double maxAngcen=measurlist[i][1];	
+				double minAngcen=measurlist[i][1];
+				for (int j=1; j<18; j=j+2) {
+				    if (measurlist[i][j] > maxAngcen) {
+				    	maxAngcen = measurlist[i][j];
+				    }
+				    if (measurlist[i][j] < minAngcen) {
+				    	minAngcen = measurlist[i][j];
+				    }
+				}
+				for (int i1=1; i1<18; i1=i1+2) {
+					C_Final_Measurenormalist[i][i1]=(measurlist[i][i1]-minAngcen)/(maxAngcen-minAngcen);
+					}
+				}
+				
+			
+				
+				return C_Final_Measurenormalist;
+				
 	
 }
-*/
-
 
 }
 

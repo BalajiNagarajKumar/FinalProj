@@ -34,6 +34,14 @@ public class Assignmentmain
 			}
 			System.out.println("new cluster centroid"+i);
 	}
+		double[][] denormameasurlisto = test1.Measuredenormalised(clustermain);
+
+		for(int k=0; k<4; k++) {
+		for (int i=1; i<18; i=i+2) {
+	System.out.println(denormameasurlisto[k][i]);
+		}
+		}
+		
 		
 
 }

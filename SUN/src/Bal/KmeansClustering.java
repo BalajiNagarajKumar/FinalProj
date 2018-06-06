@@ -51,7 +51,7 @@ public class KmeansClustering {
 		int countertwo=0;
 		int counterthree=0;
 		int counterfour=0;
-		for(int p=0; p<200000; p++) {
+		for(int p=0; p<20000000; p++) {
 			
 		
 			
