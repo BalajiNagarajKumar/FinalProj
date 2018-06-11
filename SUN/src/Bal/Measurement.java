@@ -7,7 +7,7 @@ public class Measurement {
 	double value;
 	String sub_rdfid;
 		
-		public Measurement(String rdfid, String name, double time, double value,String sub_rdfid) {
+public Measurement(String rdfid, String name, double time, double value,String sub_rdfid) {
 			this.rdfid=rdfid;
 			this.name=name;
 			this.time=time;

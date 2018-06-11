@@ -63,7 +63,8 @@ public class Valuesget {
 	}
 	}
 double[] pointlist= new double [3600];
-double[][] measurlist= new double [200][18];
+double[][] measurlist= new double [200][19];
+double[][] graphlist1 = new double[2][1800];
 
 //*********************Measurement Table Analysis*********************************//
 
@@ -72,7 +73,8 @@ public double[][] pointOfMeasurement() {
     try{
 	      // Register JDBC driver
 	      Class.forName(driver);
-	      
+	      double[][] graphlist = new double[2][1800];
+
 	      // Open a connection
 	      System.out.println("Connecting to SQL server...");
 	      con=DriverManager.getConnection(url, USER, PASS);
@@ -110,23 +112,28 @@ public double[][] pointOfMeasurement() {
 				pointlist[count]=meas.getValue();
 				count++;
 				}
+			
 			for(int i=0;i<200;i++){
 				for(int j=0;j<18 ;j++){
 					measurlist[i][j]=pointlist[i*18+j];
 				}
 			}
-		
-			System.out.println("Database is working");
-			for(int i=0;i<200;i++){
-				for(int j=0;j<18 ;j++){
-					//System.out.println(i);
-					//System.out.println(j);
-					//System.out.println((i+1)*(j+1));
-					//System.out.println(measurlist[i][j]+" ");
+			
+			for(int i=0;i<2;i++)
+			{
+				for(int j=0;j<1800;j++) {
+					graphlist[i][j]=pointlist[i*1800+j];
 				}
-				 //System.out.print("\n");
 			}
-
+		
+			for(int i=0;i<2;i++)
+			{
+				for(int j=0;j<1800;j++) {
+					graphlist1[i][j]=graphlist[i][j];
+				}
+			}
+			System.out.println("Database is working");
+			
     }catch (SQLException se) {
 		// Handle errors for JDBC
 		se.printStackTrace();
@@ -138,47 +145,154 @@ public double[][] pointOfMeasurement() {
 	return measurlist;
 } //Finish Method
 
-double[][] Measurenormalist= new double [200][18];
+double[][] graphlist = new double[2][1800];
+double[][] graphnormalist= new double [2][1800];
+
+public double[][] graphdata() {
+	try {
+	Class.forName(driver);
+    
+
+    // Open a connection
+    System.out.println("Connecting to SQL server...");
+    con=DriverManager.getConnection(url, USER, PASS);
+
+	  // execute a query to create database. It should have the same name as in the MySQL
+	  System.out.println("\n"+"Creating database...");
+	  statement = con.createStatement();
+	  con = DriverManager.getConnection(gridurl , USER, PASS);
+	  sql = "USE subtables";
+	  statement.executeUpdate(sql);
+
+	  sql = "SELECT * FROM measurements";
+	  ResultSet rs = statement.executeQuery(sql); // execute query
+	  
+	  //sql = "SELECT COUNT(*) FROM measurements";
+	  //ResultSet Rows_total = statement.executeQuery(sql);
+	  
+	 // System.out.println(Rows_total);
+	  
+	  //double RT = Rows_total.getDouble(sql);
+	  
+	  statement = con.createStatement();
+	  ResultSet r = statement.executeQuery("SELECT COUNT(*) AS rowcount FROM measurements");
+	  r.next();
+	  int countR = r.getInt("rowcount");
+	  r.close();
+	  System.out.println("MyTable has " + countR + " row(s).");
+	  
+	  int count =0;
+		while (rs.next()) {	 //false if there are no more rows to take into account
+			
+			
+			Measurement meas=new Measurement(rs.getString("rdfid"), rs.getString("name"),
+					         rs.getDouble("time"),rs.getDouble("value"),rs.getString("sub_rdfid"));
+			pointlist[count]=meas.getValue();
+			count++;
+			}
+		
+		int ui=0, uk=0;
+			for(int j=0;j<3600;j++) {
+				
+				if(j%2!=0)
+				{
+				graphlist[0][ui]=pointlist[j];
+				ui++;
+				}
+				else
+				{
+				graphlist[1][uk]=pointlist[j];
+				uk++;
+				}
+			}
+
+		
+			for(int j=0;j<1800;j++) {
+				graphnormalist[0][j]=(graphlist[0][j])/180;
+			}
+		
+			for(int u=1;u<1800;u++) {
+				graphnormalist[1][u]=(graphlist[1][u]);
+		
+			}
+		
+}catch (SQLException se) {
+	// Handle errors for JDBC
+	se.printStackTrace();
+} catch (Exception e) {
+	// Handle errors for Class.forName
+	e.printStackTrace();
+}
+
+	return graphlist;
+}
+/////////////////////////////////////Analog Values//////////////////////////
+double[] anagpointlist= new double [3600];
+double[][] anaglist= new double [200][19];
+public double[][] pointofanalog() {
+
+    try{
+	      // Register JDBC driver
+	      Class.forName(driver);
+	      
+	      // Open a connection
+	      System.out.println("Connecting to SQL server...");
+	      con=DriverManager.getConnection(url, USER, PASS);
+
+		  // execute a query to create database. It should have the same name as in the MySQL
+		  System.out.println("\n"+"Creating database...");
+		  statement = con.createStatement();
+		  con = DriverManager.getConnection(gridurl , USER, PASS);
+		  sql = "USE subtables";
+		  statement.executeUpdate(sql);
+
+		  sql = "SELECT * FROM analog_values";
+		  ResultSet rs = statement.executeQuery(sql); // execute query
+		  
+		  
+		  statement = con.createStatement();
+		  ResultSet r = statement.executeQuery("SELECT COUNT(*) AS rowcount FROM analog_values");
+		  r.next();
+		  int countR = r.getInt("rowcount");
+		  r.close();
+		  System.out.println("MyTable has " + countR + " row(s).");
+		  
+		  int count =0;
+			while (rs.next()) {	 //false if there are no more rows to take into account
+				
+				
+				Measurement anag=new Measurement(rs.getString("rdfid"), rs.getString("name"),
+						         rs.getDouble("time"),rs.getDouble("value"),rs.getString("sub_rdfid"));
+				anagpointlist[count]=anag.getValue();
+				count++;
+				}
+			for(int i=0;i<20;i++){
+				for(int j=0;j<18 ;j++){
+					anaglist[i][j]=anagpointlist[i*18+j];
+				}
+				anaglist[i][18]=0.0;
+			}
+		
+			System.out.println("Database is working");
+			
+    }catch (SQLException se) {
+		// Handle errors for JDBC
+		se.printStackTrace();
+	} catch (Exception e) {
+		// Handle errors for Class.forName
+		e.printStackTrace();
+	}
+	return anaglist;
+} //Finish Method
+
+/////////////////////////////////////////////////////
+
+
+double[][] Measurenormalist= new double [200][19];
 public double[][] Measurenormalised(double[][] measurlist){
 	
 //////// Normalization ////////////
-/*
-	for(int i=0; i<200; i++){
-		double maxVol=measurlist[i][0];
-		double minVol=measurlist[i][0];
-		for (int j=0; j<18; j=j+2) {
-			if (measurlist[i][j] > maxVol) {
-	    	maxVol = measurlist[i][j];
-	    }
-			if (measurlist[i][j] < minVol) {
-	    	minVol = measurlist[i][j];
-	    }
-	}
-	for (int i1=0; i1<18; i1=i1+2) {
-		Measurenormalist[i][i1]=(measurlist[i][i1]-minVol)/(maxVol-minVol);
-	}
-	}
-	
-	// Maximum/Minimum Angle Value
-	for(int i=0; i<200; i++){
-	double maxAng=measurlist[i][1];	
-	double minAng=measurlist[i][1];
-	for (int j=1; j<18; j=j+2) {
-	    if (measurlist[i][j] > maxAng) {
-	    	maxAng = measurlist[i][j];
-	    }
-	    if (measurlist[i][j] < minAng) {
-	    	minAng = measurlist[i][j];
-	    }
-	}
-	for (int i1=1; i1<18; i1=i1+2) {
-		Measurenormalist[i][i1]=(measurlist[i][i1]-minAng)/(maxAng-minAng);
-		}
-	}
-	*/
-	//for(int k=0; k<200; k++)
-		//for (int i=1; i<18; i=i+2) 
-	//System.out.println(Measurenormalist[k][i]);
+
 	
 	for(int i=0; i<200; i++){
 		for(int j=0;j<18;j+=2) {
@@ -198,137 +312,49 @@ public double[][] Measurenormalised(double[][] measurlist){
 	
 	
 }
-/*
-public double maxV(double[][] measurlist){
+
+double[][] Measurenormalisttest= new double [20][18];
+public double[][] Measurenormalised4test(double[][] measurlist){
 	
-////////MaxV ////////////
+//////// Normalization ////////////
 
-for(int i=0; i<200; i++){
-	double maxVol=measurlist[i][0];
-	double minVol=measurlist[i][0];
-	for (int j=0; j<18; j=j+2) {
-		if (measurlist[i][j] > maxVol) {
-   	maxVol = measurlist[i][j];
-   }
-		if (measurlist[i][j] < minVol) {
-   	minVol = measurlist[i][j];
-   }
+	
+	for(int i=0; i<20; i++){
+		for(int j=0;j<18;j+=2) {
+			Measurenormalisttest[i][j]=(measurlist[i][j])/1.1;
+		}
+	}
+	
+	for(int i=0; i<20; i++){
+		for(int j=1;j<18;j+=2) {
+			Measurenormalisttest[i][j]=(measurlist[i][j])/180;
+		}
+	}
+	
+	
+	return Measurenormalisttest;
+	
+	
+	
 }
 
-}
-return maxVol;
-}
-
-// Maximum/Minimum Angle Value
-for(int i=0; i<200; i++){
-double maxAng=measurlist[i][1];	
-double minAng=measurlist[i][1];
-for (int j=1; j<18; j=j+2) {
-   if (measurlist[i][j] > maxAng) {
-   	maxAng = measurlist[i][j];
-   }
-   if (measurlist[i][j] < minAng) {
-   	minAng = measurlist[i][j];
-   }
-}
-
-
-
-return Measurenormalist;
-
-
-
-}
-*/
 
 ////////DENormalization ////////////
-double[][] C_Final_Measurenormalist= new double [4][18];
+double[][] C_Final_Measurenormalist= new double [4][19];
 
 public double[][] Measuredenormalised(double[][] measurlist, double[][] originallist){
 	
-	/*
-	for(int i=0; i<4; i++){
-		double maxVol=originallist[i][0];
-		double minVol=originallist[i][0];
-		for (int j=0; j<18; j=j+2) {
-			if (originallist[i][j] > maxVol) {
-	    	maxVol = originallist[i][j];
-	    }
-			if (originallist[i][j] < minVol) {
-	    	minVol = originallist[i][j];
-	    }
-	}
-		for (int i1=0; i1<18; i1=i1+2) {
-			C_Final_Measurenormalist[i][i1]=(measurlist[i][i1]*(maxVol-minVol))+minVol;
-		}
-	
-	}
-	
-	// Maximum/Minimum Angle Value
-	for(int i=0; i<4; i++){
-	double maxAng=originallist[0][1];	
-	double minAng=originallist[0][1];
-	for (int j=1; j<18; j=j+2) {
-	    if (measurlist[i][j] > maxAng) {
-	    	maxAng = originallist[i][j];
-	    }
-	    if (measurlist[i][j] < minAng) {
-	    	minAng = originallist[i][j];
-	    }
-	}
-	for (int i1=1; i1<18; i1=i1+2) {
-		C_Final_Measurenormalist[i][i1]=(measurlist[i][i1]*(maxAng-minAng))+minAng;
-		}
-	}
+
 	
 	
 	for(int i=0; i<4; i++){
-		double maxVolcen=measurlist[i][0];
-		double minVolcen=measurlist[i][0];
-		for (int j=0; j<18; j=j+2) {
-			if (measurlist[i][j] > maxVolcen) {
-	    	maxVolcen = measurlist[i][j];
-	    }
-			if (measurlist[i][j] < minVolcen) {
-	    	minVolcen = measurlist[i][j];
-	    }
-	}
-		for (int i1=0; i1<18; i1=i1+2) {
-			C_Final_Measurenormalist[i][i1]=(measurlist[i][i1]*(maxVol-minVolcen))+minVolcen;
-		}
-	}
-	
-	
-	
-			for(int i=0; i<4; i++){
-				double maxAngcen=measurlist[i][1];	
-				double minAngcen=measurlist[i][1];
-				for (int j=1; j<18; j=j+2) {
-				    if (measurlist[i][j] > maxAngcen) {
-				    	maxAngcen = measurlist[i][j];
-				    }
-				    if (measurlist[i][j] < minAngcen) {
-				    	minAngcen = measurlist[i][j];
-				    }
-				}
-				for (int i1=1; i1<18; i1=i1+2) {
-					C_Final_Measurenormalist[i][i1]=(measurlist[i][i1]*(maxAngcen-minAngcen))+minAngcen;
-					}
-				}
-				
-			
-				*/
-	
-	
-	
-	for(int i=0; i<4; i++){
-		for(int j=0;j<18;j+=2) {
+		for(int j=0;j<19;j+=2) {
 			C_Final_Measurenormalist[i][j]=(measurlist[i][j])*1.1;
 		}
 	}
 	
 	for(int i=0; i<4; i++){
-		for(int j=1;j<18;j+=2) {
+		for(int j=1;j<19;j+=2) {
 			C_Final_Measurenormalist[i][j]=(measurlist[i][j])*180;
 		}
 	}
@@ -337,10 +363,36 @@ public double[][] Measuredenormalised(double[][] measurlist, double[][] original
 	
 }
 
+
+
+double[][] C_Final_Measurenormalisttest= new double [4][18];
+
+public double[][] Measuredenormalised4test(double[][] measurlist){
+	
+
+	
+	
+	for(int i=0; i<4; i++){
+		for(int j=0;j<18;j+=2) {
+			C_Final_Measurenormalisttest[i][j]=(measurlist[i][j])*1.1;
+		}
+	}
+	
+	for(int i=0; i<4; i++){
+		for(int j=1;j<18;j+=2) {
+			C_Final_Measurenormalisttest[i][j]=(measurlist[i][j])*180;
+		}
+	}
+				return C_Final_Measurenormalisttest;
+				
+	
+}
+
+
+
 }
 
 		
-
 	
 	
 
